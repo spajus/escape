@@ -14,7 +14,8 @@ html, body {
 }
 
 #map {
-  width: 100%;
+  margin: auto;
+  width: auto;
   text-align: center;
   border: 0;
   cellpadding: 0;
@@ -22,16 +23,26 @@ html, body {
 }
 
 #map td {
-  height: 20%;
-  width: 20px;
+  height: auto;
+  border: 1px dashed #ddd;
 }
 
-#map td.void {
+#map td {
   background: black;
 }
 
 #map td.room {
   background: white;
+}
+
+#map .player {
+  display: block;
+  height: 30%;
+  width: 30%;
+  background: red;
+  border-radius: 50%;
+  margin: auto;
+
 }
 
 #footer {
