@@ -4,7 +4,7 @@ class Escape::Models::Char < ActiveRecord::Base
 
   def self.login(name, pass)
     char = where(name: name, pass: pass).first
-    char.seen!
+    char.seen! if char
     char
   end
 
