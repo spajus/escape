@@ -15,4 +15,12 @@ class Escape::Models::Char < ActiveRecord::Base
   def location
     [x, y, z]
   end
+
+  def relocate!(new_location)
+    update_attributes(
+      x: new_location[0],
+      y: new_location[1],
+      z: new_location[2])
+    seen!
+  end
 end

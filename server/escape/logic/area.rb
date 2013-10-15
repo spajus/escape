@@ -13,7 +13,14 @@ module Escape::Logic
       chamber:    8,
     }
 
+
+
     module Methods
+
+      def movable?(type)
+        type > 0
+      end
+
       def parse_type(type)
         available_types = TYPES.keys.map(&:to_s)
         if available_types.include? type

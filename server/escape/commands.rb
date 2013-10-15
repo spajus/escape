@@ -3,6 +3,7 @@ require_relative 'commands/create'
 require_relative 'commands/quit'
 require_relative 'commands/login'
 require_relative 'commands/describe'
+require_relative 'commands/go'
 
 module Escape::Commands
 

@@ -7,6 +7,10 @@ class Escape::Models::Cell < ActiveRecord::Base
     where(x: location[0], y: location[1], z: location[2]).any?
   end
 
+  def self.at(location)
+    where(x: location[0], y: location[1], z: location[2]).first
+  end
+
   def self.describe(options)
     location = options.delete(:location)
     options = options.merge(parse_location(location))
