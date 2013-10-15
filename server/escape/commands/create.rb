@@ -20,38 +20,46 @@ module Escape::Commands
       def do(context, name_and_pass)
         verify(context)
         name, pass = prepare_args(name_and_pass)
-        char = Char.create(name: name,
-                           pass: hash_pass(pass),
+        char = Char.new(name: name,
+                           pass: pass,
                            x: 0,
                            y: 0,
                            last_seen_at: DateTime.now)
-        if char.save
-          context.set[:char_id] = char.id
-          "Welcome, #{char.name}! Please remember your password, we don't ask your email, \
-    so it's not recoverable."
+        if char.valid? && char.save
+          welcome = context.login(char)
+          "#{welcome} Please remember your password, we don't ask your email, " +
+          "so it's not recoverable."
         else
-          binding.pry
-          "Try again"
+          errors = char.errors.map { |f, e| "#{f} #{e}" }
+          "Cannot create character: #{errors.join(", ")}"
         end
+      end
+    end
+
+    module SharedMethods
+      def verify(context)
+        raise BadCommand.new('You are already logged in') if context.logged_in?
+      end
+
+      def prepare_args(name_and_pass)
+        raise BadCommand.new(help) unless name_and_pass
+
+        name, pass = name_and_pass.split(' ', 2)
+        raise BadCommand.new(help) unless name && pass
+
+        pass = hash_pass(pass)
+        [name, pass]
       end
 
       private
 
-      def verify(context)
-        raise 'You are already logged in' if context.char
-      end
-
-      def prepare_args(name_and_pass)
-        raise help unless name_and_pass
-
-        name, pass = name_and_pass.split(' ', 2)
-        raise help unless name && pass
-        [name, pass]
-      end
-
       def hash_pass(pass)
-        PBKDF2.new(password: pass, salt: Escape::Constants::SALT, iterations: 10000)
+        OpenSSL::PKCS5.pbkdf2_hmac_sha1(pass, Escape::Constants::SALT, 4096, 16)
+                      .unpack('H*')
+                      .first
       end
     end
+
+    extend SharedMethods
   end
 end

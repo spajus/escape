@@ -1,5 +1,7 @@
 require_relative 'commands/help'
 require_relative 'commands/create'
+require_relative 'commands/quit'
+require_relative 'commands/login'
 
 module Escape::Commands
 
@@ -20,12 +22,13 @@ module Escape::Commands
 
       def safe_send(cmd, context, params)
         Escape::Commands.send(cmd, context, params)
-      rescue => e
-        puts e
-        puts e.backtrace.join("\n")
+      rescue BadCommand => e
         "#{e}"
       end
     end
+  end
+
+  class BadCommand < Exception
   end
 
 end
