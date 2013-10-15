@@ -1,5 +1,3 @@
-require 'pbkdf2'
-
 module Escape::Commands
 
   def self.create(context, name_and_pass)
@@ -12,7 +10,6 @@ module Escape::Commands
 
   module Create
     class << self
-
       def help
         'Create a character with "create <name> <password>"'
       end

@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'pbkdf2'
 gem 'sinatra'
 gem 'sinatra-activerecord'
 gem 'mysql2'
