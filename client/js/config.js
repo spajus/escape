@@ -2,6 +2,7 @@
   Escape.Config = {
     server: '/',
     map: '#map',
+    scrollbackChars: 5000,
     gridWidth: 9,
     gridHeight: 9
   };

@@ -39,7 +39,7 @@
         callback(data);
       },
       error: function(xhr, errorType, error) {
-        callback(error);
+        callback('' + xhr.status + ': ' + xhr.statusText);
       }
     });
 
@@ -50,7 +50,7 @@
       [0, 1, 0, 1, 1],
       [0, 1, 0, 0, 1],
       [0, 1, 0, 0, 1],
-      [0, 1, 0, 0, 1],
+      [0, 1, 1, 1, 1],
       [0, 1, 0, 0, 1],
       ]);
   };

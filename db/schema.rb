@@ -14,13 +14,16 @@ ActiveRecord::Schema.define(version: 20131015042719) do
 
   create_table "chars", force: true do |t|
     t.string   "name",         limit: 20
-    t.string   "pass"
-    t.datetime "last_seen_at"
+    t.string   "pass",                                null: false
+    t.datetime "last_seen_at",                        null: false
     t.integer  "x",                                   null: false
     t.integer  "y",                                   null: false
     t.integer  "z",                       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "chars", ["name"], name: "index_chars_on_name", unique: true, using: :btree
+  add_index "chars", ["x", "y", "z"], name: "index_chars_on_x_and_y_and_z", using: :btree
 
 end

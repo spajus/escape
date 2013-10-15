@@ -24,8 +24,9 @@ $(function() {
 
   var appendOutput = function(output) {
     var previous = $output.val();
-    if (previous.length > 1000) {
-      $output.val(previous.substr(0, 1000) + output);
+    var limit = Escape.Config.scrollbackChars;
+    if (previous.length > limit) {
+      $output.val(previous.substr(previous.length - limit, previous.length) + output);
     } else {
       $output.val(previous + output);
     }
