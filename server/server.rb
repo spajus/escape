@@ -1,8 +1,9 @@
 require 'sinatra'
-require 'pry-nav'
 require 'json'
 require 'sinatra/activerecord'
 require_relative 'escape/escape'
+
+require 'pry-nav' if settings.development?
 
 root_dir = File.join(File.dirname(File.dirname(__FILE__)))
 client_dir = File.join(root_dir, 'client')
