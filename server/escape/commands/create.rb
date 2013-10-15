@@ -9,6 +9,7 @@ module Escape::Commands
   end
 
   module Create
+
     class << self
       def help
         'Create a character with "create <name> <password>"'
@@ -17,11 +18,11 @@ module Escape::Commands
       def do(context, name_and_pass)
         verify(context)
         name, pass = prepare_args(name_and_pass)
-        char = Char.new(name: name,
-                           pass: pass,
-                           x: 0,
-                           y: 0,
-                           last_seen_at: DateTime.now)
+        char = Escape::Models::Char.new(name: name,
+                                        pass: pass,
+                                        x: 0,
+                                        y: 0,
+                                        last_seen_at: DateTime.now)
         if char.valid? && char.save
           welcome = context.login(char)
           "#{welcome} Please remember your password, we don't ask your email, " +
@@ -35,14 +36,14 @@ module Escape::Commands
 
     module SharedMethods
       def verify(context)
-        raise BadCommand.new('You are already logged in') if context.logged_in?
+        raise Escape::BadCommand.new('You are already logged in') if context.logged_in?
       end
 
       def prepare_args(name_and_pass)
-        raise BadCommand.new(help) unless name_and_pass
+        raise Escape::BadCommand.new(help) unless name_and_pass
 
         name, pass = name_and_pass.split(' ', 2)
-        raise BadCommand.new(help) unless name && pass
+        raise Escape::BadCommand.new(help) unless name && pass
 
         pass = hash_pass(pass)
         [name, pass]

@@ -1,4 +1,4 @@
-class Cell < ActiveRecord::Base
+class Escape::Models::Cell < ActiveRecord::Base
 
   validate :desc, length: { maximum: 140 }
   belongs_to :creator, class_name: 'Char'

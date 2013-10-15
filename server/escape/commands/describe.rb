@@ -14,13 +14,13 @@ module Escape::Commands
         direction, type, description = parse(args)
         loc = context.char.location
         loc = Escape::Logic::Direction.offset(loc, direction)
-        if Cell.exists_at?(loc)
+        if Escape::Models::Cell.exists_at?(loc)
           "There is something already in that direction"
         else
-          cell = Cell.describe(location: loc,
-                               kind: type,
-                               desc: description,
-                               creator: context.char)
+          cell = Escape::Models::Cell.describe(location: loc,
+                                               kind: type,
+                                               desc: description,
+                                               creator: context.char)
           if cell.valid? && cell.save
             "You've just created a piece of this universe"
           else
@@ -37,7 +37,10 @@ module Escape::Commands
       private
 
       def parse(args)
-        args.split(' ', 3)
+        raise Escape::BadCommand.new(help) if args.nil?
+        direction, type, description = args.split(' ', 3)
+        type = Escape::Logic::Area.parse_type(type)
+        [direction, type, description]
       end
     end
   end

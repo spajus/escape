@@ -21,9 +21,8 @@ module Escape::Commands
       def do(context, name_and_pass)
         verify(context)
         name, pass = prepare_args(name_and_pass)
-        char = Char.where(name: name, pass: pass).first
+        char = Escape::Models::Char.login(name, pass)
         if char
-          char.seen!
           context.login(char)
         else
           sleep 3

@@ -29,7 +29,7 @@ module Escape::Logic
         if 'nsweud'.include? parsed
           parsed.to_sym
         else
-          raise BadCommand("Wrong direction: #{direction}. Try n, s, e, w, u, d.")
+          raise Escape::BadCommand.new("Wrong direction: #{direction}. Try n, s, e, w, u, d.")
         end
       end
     end

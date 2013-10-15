@@ -23,13 +23,9 @@ module Escape::Commands
 
       def safe_send(cmd, context, params)
         Escape::Commands.send(cmd, context, params)
-      rescue BadCommand => e
+      rescue Escape::BadCommand => e
         "#{e}"
       end
     end
   end
-
-  class BadCommand < Exception
-  end
-
 end

@@ -22,7 +22,7 @@ module Escape
 
     def char
       if char_id = @session[:char_id]
-        Char.find(char_id)
+        Escape::Models::Char.find(char_id)
       end
     end
 
