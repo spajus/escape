@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131015042719) do
+ActiveRecord::Schema.define(version: 20131015101523) do
+
+  create_table "cells", force: true do |t|
+    t.integer  "x",                                  null: false
+    t.integer  "y",                                  null: false
+    t.integer  "z",                      default: 0
+    t.integer  "kind",       limit: 2,   default: 0
+    t.integer  "creator_id"
+    t.string   "desc",       limit: 140
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cells", ["x", "y", "z"], name: "index_cells_on_x_and_y_and_z", unique: true, using: :btree
 
   create_table "chars", force: true do |t|
     t.string   "name",         limit: 20

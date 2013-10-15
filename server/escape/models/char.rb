@@ -5,4 +5,8 @@ class Char < ActiveRecord::Base
   def seen!
     update_attribute(:last_seen_at, DateTime.now)
   end
+
+  def location
+    [x, y, z]
+  end
 end
