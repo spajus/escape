@@ -13,10 +13,14 @@ module Escape::Commands
         cmd, params = command.split(' ', 2)
 
         if Escape::Commands.respond_to?(cmd)
-          safe_send(cmd, context, params)
+          response = safe_send(cmd, context, params)
+          if context.logged_in?
+            area = Escape::Logic::Area.chunk(context.char.location)
+          end
         else
-          "Unknown command: \"#{cmd}\". Try \"help\"."
+          response = "Unknown command: \"#{cmd}\". Try \"help\"."
         end
+        { res: response, area: area }
       end
 
       private

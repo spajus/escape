@@ -36,23 +36,15 @@
       },
       dataType: 'json',
       success: function(data, status, xhr) {
-        callback(data);
+        callback(data.res);
+        if (data.area) {
+          Escape.UpdateMap(data.area);
+        }
       },
       error: function(xhr, errorType, error) {
         callback('' + xhr.status + ': ' + xhr.statusText);
       }
     });
-
-    Escape.UpdateMap([
-      [0, 0, 1, 0, 0],
-      [1, 0, 1, 1, 0],
-      [1, 1, 1, 1, 0],
-      [0, 1, 0, 1, 1],
-      [0, 1, 0, 0, 1],
-      [0, 1, 0, 0, 1],
-      [0, 1, 1, 1, 1],
-      [0, 1, 0, 0, 1],
-      ]);
   };
 
 

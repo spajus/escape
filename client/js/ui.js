@@ -60,7 +60,6 @@ $(function() {
         appendOutput(data);
       });
       $input.val('');
-
     }
   });
 
