@@ -1,7 +1,7 @@
 module Escape::Commands
 
-  def self.create(context, name_and_pass)
-    Create.do(context, name_and_pass)
+  def self.create(context, args)
+    Create.do(context, args)
   end
 
   def self.create_help
@@ -9,55 +9,39 @@ module Escape::Commands
   end
 
   module Create
-
     class << self
-      def help
-        'Create a character with "create <name> <password>"'
-      end
-
-      def do(context, name_and_pass)
-        verify(context)
-        name, pass = prepare_args(name_and_pass)
-        char = Escape::Models::Char.new(name: name,
-                                        pass: pass,
-                                        x: 0,
-                                        y: 0,
-                                        last_seen_at: DateTime.now)
-        if char.valid? && char.save
-          welcome = context.login(char)
-          "#{welcome} Please remember your password, we don't ask your email, " +
-          "so it's not recoverable."
+      def do(context, args)
+        direction, type, description = parse(args)
+        loc = context.char.location
+        loc = Escape::Logic::Direction.offset(loc, direction)
+        if Escape::Models::Cell.exists_at?(loc)
+          "There is something already in that direction"
         else
-          errors = char.errors.map { |f, e| "#{f} #{e}" }
-          "Cannot create character: #{errors.join(", ")}"
+          cell = Escape::Models::Cell.describe(location: loc,
+                                               kind: type,
+                                               desc: description,
+                                               creator: context.char)
+          if cell.valid? && cell.save
+            "You've just created a piece of this universe"
+          else
+            errors = char.errors.map { |f, e| "#{f} #{e}" }
+            "Cannot create location: #{errors.join(", ")}"
+          end
         end
       end
-    end
 
-    module SharedMethods
-      def verify(context)
-        raise Escape::BadCommand.new('You are already logged in') if context.logged_in?
-      end
-
-      def prepare_args(name_and_pass)
-        raise Escape::BadCommand.new(help) unless name_and_pass
-
-        name, pass = name_and_pass.split(' ', 2)
-        raise Escape::BadCommand.new(help) unless name && pass
-
-        pass = hash_pass(pass)
-        [name, pass]
+      def help
+        'create map with "create <direction> <type> [description]"'
       end
 
       private
 
-      def hash_pass(pass)
-        OpenSSL::PKCS5.pbkdf2_hmac_sha1(pass, Escape::Constants::SALT, 4096, 16)
-                      .unpack('H*')
-                      .first
+      def parse(args)
+        raise Escape::BadCommand.new(help) if args.nil?
+        direction, type, description = args.split(' ', 3)
+        type = Escape::Logic::Area.parse_type(type)
+        [direction, type, description]
       end
     end
-
-    extend SharedMethods
   end
 end

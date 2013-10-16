@@ -10,7 +10,7 @@ module Escape::Commands
 
   module Login
 
-    extend Create::SharedMethods
+    extend Signup::SharedMethods
 
     class << self
 
