@@ -14,24 +14,24 @@
 
   <body>
     <div id="wrap">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-6">
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div id="map-col" class="col col-xs-6">
+            <table id="map">
+            </table>
+          </div>
+          <div id="out-col" class="col col-xs-6">
             <div class="form-group">
               <textarea id="output" class="form-control" readonly="readonly">Type "help"</textarea>
             </div>
-          </div>
-          <div class="col-xs-6">
-            <table id="map">
-            </table>
           </div>
         </div>
       </div>
     </div>
 
     <div id="footer">
-      <div class="container">
-        <div class="row">
+      <div class="container-fluid">
+        <div class="row-fluid">
           <div class="col-xs-12">
             <div class="form-group">
               <input id="input" type="text" class="form-control" />

@@ -6,17 +6,25 @@ $(function() {
   var $input = $('#input');
   var $output = $('#output');
 
-  var resizeControls = function($map, $output, $input) {
-    $map.height($window.height() - footerHeight);
-    $map.width($output.width());
-    //$map.width($map.find('td').height() * Escape.Config.gridHeight);
+  var resizeControls = function() {
+    $col = $('.col');
+    if ($window.height() > $window.width()) {
+      $col.removeClass('col-xs-6').addClass('col-md-12');
+      $output.height(($window.height() - footerHeight) / 2);
+      $map.height(($window.height() - footerHeight) / 2);
+      $map.width($output.width());
+    } else {
+      $col.removeClass('col-md-12').addClass('col-xs-6');
+      $map.height($window.height() - footerHeight);
+      $output.height($map.height());
+      $map.width($output.width());
+    }
     $td = $map.find('td');
     if ($td.width() > $td.height()) {
       $map.width($td.height() * Escape.Config.gridHeight);
     } else {
       $map.height($td.width() * Escape.Config.gridWidth);
     }
-    $output.height($map.height());
     $input.focus();
   };
 
@@ -72,8 +80,8 @@ $(function() {
     }
   });
 
-  $window.resize(function(e) { resizeControls($map, $output); });
+  $window.resize(function(e) { resizeControls(); });
 
   prepareMap($map);
-  resizeControls($map, $output, $input);
+  resizeControls();
 });
