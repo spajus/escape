@@ -6,9 +6,18 @@ $(function() {
   var $input = $('#input');
   var $output = $('#output');
 
-  var resizeMap = function($map) {
+  var resizeControls = function($map, $output, $input) {
     $map.height($window.height() - footerHeight);
-    $map.width($map.find('td').height() * Escape.Config.gridHeight);
+    $map.width($output.width());
+    //$map.width($map.find('td').height() * Escape.Config.gridHeight);
+    $td = $map.find('td');
+    if ($td.width() > $td.height()) {
+      $map.width($td.height() * Escape.Config.gridHeight);
+    } else {
+      $map.height($td.width() * Escape.Config.gridWidth);
+    }
+    $output.height($map.height());
+    $input.focus();
   };
 
   var processCommand = function(input, callback) {
@@ -63,8 +72,8 @@ $(function() {
     }
   });
 
-  $window.resize(function(e) { resizeMap($map); });
+  $window.resize(function(e) { resizeControls($map, $output); });
 
   prepareMap($map);
-  resizeMap($map);
+  resizeControls($map, $output, $input);
 });
