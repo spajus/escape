@@ -30,14 +30,39 @@ html, body {
 #map td {
   height: auto;
   border: 1px dashed #ddd;
+  // background-size: 100%;
 }
 
-#map td {
-  background: black;
-}
 
-#map td.room {
-  background: white;
+.undef {
+  background-image: url('../images/textures/unknown.png');
+}
+.wall {
+  background-image: url('../images/textures/wall.png');
+}
+.room {
+  background-image: url('../images/textures/room.png');
+}
+.forest {
+  background-image: url('../images/textures/forest.png');
+}
+.desert {
+  background-image: url('../images/textures/desert.png');
+}
+.lake {
+  background-image: url('../images/textures/lake.png');
+}
+.river {
+  background-image: url('../images/textures/river.png');
+}
+.hill {
+  background-image: url('../images/textures/hill.png');
+}
+.meadow {
+  background-image: url('../images/textures/meadow.png');
+}
+.chamber {
+  background-image: url('../images/textures/chamber.png');
 }
 
 #map .player {

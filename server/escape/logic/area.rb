@@ -54,11 +54,7 @@ module Escape::Logic
             grid_loc_y = y + grid_y - off_y
             grid_hash = "#{grid_loc_x}:#{grid_loc_y}"
             cell = cell_map[grid_hash]
-            if cell
-              grid_row << 1
-            else
-              grid_row << 0
-            end
+            grid_row << cell.try(:kind)
           end
           grid << grid_row
         end

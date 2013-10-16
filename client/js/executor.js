@@ -13,9 +13,19 @@
         var $cell = $(cell);
         $cell.removeClass();
 
-        if (data[r][c] == 1) {
-          $cell.addClass('room');
+        var cellClass = 'undef'
+        switch (data[r][c]) {
+          case 0: cellClass = 'wall'; break;
+          case 1: cellClass = 'room'; break;
+          case 2: cellClass = 'forest'; break;
+          case 3: cellClass = 'desert'; break;
+          case 4: cellClass = 'lake'; break;
+          case 5: cellClass = 'river'; break;
+          case 6: cellClass = 'hill'; break;
+          case 7: cellClass = 'meadow'; break;
+          case 8: cellClass = 'chamber'; break;
         }
+        $cell.addClass(cellClass);
       }
     }
   };
