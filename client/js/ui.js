@@ -29,25 +29,33 @@ $(function() {
   };
 
   var processCommand = function(input, callback) {
-    if (input.toLowerCase() == '/clear') {
+    if (input.toLowerCase() == 'clear') {
       $output.val('');
       return '';
     } else {
-      Escape.ExecuteCommand(input, function(data) {
-        callback(Escape.FormatOutput(input, data));
-      });
+      if (input.toLowerCase().indexOf('login') !== 0) {
+        var previous = $output.val();
+        if (previous) {
+          $output.val($output.val() + "\n> " + input);
+        } else {
+          $output.val("> " + input);
+        }
+      }
+      Escape.ExecuteCommand(input, callback);
     }
   };
 
   var appendOutput = function(output) {
-    var previous = $output.val();
-    var limit = Escape.Config.scrollbackChars;
-    if (previous.length > limit) {
-      $output.val(previous.substr(previous.length - limit, previous.length) + output);
-    } else {
-      $output.val(previous + output);
+    if (output && output.length > 0) {
+      var previous = $output.val();
+      var limit = Escape.Config.scrollbackChars;
+      if (previous.length > limit) {
+        $output.val(previous.substr(previous.length - limit, previous.length) + output);
+      } else {
+        $output.val(previous + "\n" + output);
+      }
+      $output[0].scrollTop = $output[0].scrollHeight;
     }
-    $output[0].scrollTop = $output[0].scrollHeight;
   }
 
   var prepareMap = function($map) {
@@ -73,14 +81,21 @@ $(function() {
   $input.keydown(function(e) {
     if (e.keyCode == 13) {
       var input = $input.val();
-      processCommand(input, function(data) {
-        appendOutput(data);
-      });
+      processCommand(input, appendOutput);
       $input.val('');
     }
   });
 
+  var refreshGame = function(itself) {
+    Escape.ExecuteCommand('refresh', appendOutput);
+    setTimeout(itself, 3000);
+  };
+
+  refreshGame(refreshGame);
+
   $window.resize(function(e) { resizeControls(); });
+
+
 
   prepareMap($map);
   resizeControls();

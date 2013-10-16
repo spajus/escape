@@ -3,8 +3,8 @@
     server: '/',
     map: '#map',
     scrollbackChars: 5000,
-    gridWidth: 9,
-    gridHeight: 9
+    gridWidth:  7,
+    gridHeight: 7
   };
 
   Escape.Config.IsPlayerSpot = function(row, col) {

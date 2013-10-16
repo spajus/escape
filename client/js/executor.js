@@ -30,23 +30,19 @@
     }
   };
 
-
-
-  Escape.FormatOutput = function(input, output) {
-    return "\n> " + input + "\n" + output;
-  };
-
   Escape.ExecuteCommand = function(command, callback) {
 
     $.ajax({
       type: 'POST',
       url: Escape.Config.ServerAction('command'),
       data: {
-        command: command
+        command: command,
+        since: Escape.since
       },
       dataType: 'json',
       success: function(data, status, xhr) {
         callback(data.res);
+        Escape.since = data.time;
         if (data.area) {
           Escape.UpdateMap(data.area);
         }

@@ -1,4 +1,5 @@
 require_relative 'commands/help'
+require_relative 'commands/refresh'
 require_relative 'commands/create'
 require_relative 'commands/quit'
 require_relative 'commands/login'
@@ -12,6 +13,7 @@ module Escape::Commands
     class << self
       def run(command, context)
         cmd, params = command.split(' ', 2)
+        cmd.downcase!
 
         if Escape::Commands.respond_to?(cmd)
           response = safe_send(cmd, context, params)
@@ -21,7 +23,7 @@ module Escape::Commands
         else
           response = "Unknown command: \"#{cmd}\". Try \"help\"."
         end
-        { res: response, area: area }
+        { res: response, area: area, time: context.since.to_i }
       end
 
       private

@@ -2,8 +2,11 @@ module Escape
 
   class Context
 
-    def initialize(session)
+    BACK_WINDOW = 15.minutes
+
+    def initialize(session, params)
       @session = session
+      @params = params
     end
 
     def logged_in?
@@ -24,6 +27,14 @@ module Escape
       if char_id = @session[:char_id]
         Escape::Models::Char.find(char_id)
       end
+    end
+
+    def since
+      return @since if @since
+      back_ago = BACK_WINDOW.ago.to_i
+      since = @params[:since].to_i || back_ago
+      since = back_ago if since < back_ago
+      @since = Time.at(since)
     end
 
     private

@@ -14,11 +14,12 @@ module Escape::Logic
     }
 
 
+    UNMOVABLE = [:wall, :lake, :river].map { |t| TYPES[t] }
 
     module Methods
 
       def movable?(type)
-        type > 0
+        !UNMOVABLE.include?(type)
       end
 
       def parse_type(type)

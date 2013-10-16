@@ -18,6 +18,6 @@ end
 
 post '/command' do
   content_type :json
-  context = Escape::Context.new(request.session)
+  context = Escape::Context.new(request.session, params)
   Escape::Commands::Runner.run(params[:command], context).to_json
 end
