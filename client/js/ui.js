@@ -75,7 +75,7 @@ $(function() {
   }
 
   var drawPlayer = function($td) {
-    $('<div class="player"></div>').appendTo($td);
+    $('<div class="char"></div>').appendTo($td);
   }
 
   $input.keydown(function(e) {

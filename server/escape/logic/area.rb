@@ -32,6 +32,8 @@ module Escape::Logic
         end
       end
 
+
+
       def chunk(location)
         off_x = Escape::Constants::GRID_WIDTH  / 2
         off_y = Escape::Constants::GRID_HEIGHT / 2
@@ -40,10 +42,20 @@ module Escape::Logic
                                            (x - off_x .. x + off_x),
                                            (y - off_y .. y + off_y),
                                            z)
+        chars = Escape::Models::Char.where("x in (?) and y in (?) and z = ?",
+                                           (x - off_x .. x + off_x),
+                                           (y - off_y .. y + off_y),
+                                           z)
         cell_map = {}
         cells.map do |cell|
           cell_hash = "#{cell.x}:#{cell.y}"
           cell_map[cell_hash] = cell
+        end
+
+        char_map = {}
+        chars.map do |char|
+          char_hash = "#{char.x}:#{char.y}"
+          char_map[char_hash] = char
         end
 
         grid = []
@@ -55,7 +67,11 @@ module Escape::Logic
             grid_loc_y = y + grid_y - off_y
             grid_hash = "#{grid_loc_x}:#{grid_loc_y}"
             cell = cell_map[grid_hash]
-            grid_row << cell.try(:kind)
+            if cell
+              grid_row << [cell.kind, char_map[grid_hash].try(:name)]
+            else
+              grid_row << nil
+            end
           end
           grid << grid_row
         end

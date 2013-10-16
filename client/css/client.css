@@ -23,11 +23,10 @@ html, body {
   //width: auto;
   text-align: center;
   border: 0;
-  cellpadding: 0;
-  cellspacing: 0;
+  table-layout: fixed;
 }
 
-#map td {
+td {
   height: auto;
 }
 
@@ -63,14 +62,13 @@ html, body {
   background-image: url('../images/textures/chamber.png');
 }
 
-#map .player {
+.char {
   display: block;
   height: 30%;
   width: 30%;
   background: red;
   border-radius: 50%;
   margin: auto;
-
 }
 
 .io {
