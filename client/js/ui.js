@@ -88,7 +88,6 @@ $(function() {
 
   var refreshGame = function() {
     Escape.ExecuteCommand('refresh', appendOutput);
-    console.log('refreshing');
     setTimeout(refreshGame, 3000);
   };
 
