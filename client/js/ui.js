@@ -86,16 +86,15 @@ $(function() {
     }
   });
 
-  var refreshGame = function(itself) {
+  var refreshGame = function() {
     Escape.ExecuteCommand('refresh', appendOutput);
-    setTimeout(itself, 3000);
+    console.log('refreshing');
+    setTimeout(refreshGame, 3000);
   };
 
   refreshGame(refreshGame);
 
   $window.resize(function(e) { resizeControls(); });
-
-
 
   prepareMap($map);
   resizeControls();
