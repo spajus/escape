@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131015101523) do
+ActiveRecord::Schema.define(version: 20131017080001) do
 
   create_table "cells", force: true do |t|
     t.integer  "x",                                  null: false
@@ -38,5 +38,16 @@ ActiveRecord::Schema.define(version: 20131015101523) do
 
   add_index "chars", ["name"], name: "index_chars_on_name", unique: true, using: :btree
   add_index "chars", ["x", "y", "z"], name: "index_chars_on_x_and_y_and_z", using: :btree
+
+  create_table "messages", force: true do |t|
+    t.integer  "kind",        limit: 2,   default: 0
+    t.integer  "author_id",                           null: false
+    t.integer  "receiver_id"
+    t.string   "content",     limit: 140
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["created_at"], name: "index_messages_on_created_at", using: :btree
 
 end

@@ -2,7 +2,7 @@ module Escape
 
   class Context
 
-    BACK_WINDOW = 15.minutes
+    BACK_WINDOW = 3.minutes
 
     def initialize(session, params)
       @session = session

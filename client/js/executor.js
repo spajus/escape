@@ -58,6 +58,11 @@
         if (data.area) {
           Escape.UpdateMap(data.area);
         }
+        if (data.msgs) {
+          for (var i = 0; i < data.msgs.length; i++) {
+            callback(data.msgs[i]);
+          }
+        }
       },
       error: function(xhr, errorType, error) {
         callback('' + xhr.status + ': ' + xhr.statusText);

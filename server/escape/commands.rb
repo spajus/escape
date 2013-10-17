@@ -5,6 +5,7 @@ require_relative 'commands/quit'
 require_relative 'commands/login'
 require_relative 'commands/create'
 require_relative 'commands/go'
+require_relative 'commands/say'
 
 module Escape::Commands
 
@@ -19,11 +20,12 @@ module Escape::Commands
           response = safe_send(cmd, context, params)
           if context.logged_in?
             area = Escape::Logic::Area.chunk(context.char.location)
+            msgs = Escape::Models::Message.unheard_for(context.char, context.since)
           end
         else
           response = "Unknown command: \"#{cmd}\". Try \"help\"."
         end
-        { res: response, area: area, time: context.since.to_i }
+        { res: response, area: area, msgs: msgs, time: Time.now.to_i }
       end
 
       private
