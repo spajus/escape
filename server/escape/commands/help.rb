@@ -6,7 +6,9 @@ module Escape::Commands
 
   module Help
 
-    ANONYMOUS_COMMANDS = ['create', 'login', 'help'].sort
+    ANONYMOUS_COMMANDS = ['signup', 'login', 'help'].sort
+    ANONYMOUS_ONLY_COMMANDS = ['signup', 'login']
+    HIDDEN_COMMANDS = ['refresh']
 
     class << self
 
@@ -19,7 +21,11 @@ module Escape::Commands
             "No help for #{command}, just try running it"
           end
         else
-          commands = context.logged_in? ? all_commands : ANONYMOUS_COMMANDS
+          commands = if context.logged_in?
+            all_commands.reject { |c| (HIDDEN_COMMANDS + ANONYMOUS_ONLY_COMMANDS).include?(c) }
+          else
+            ANONYMOUS_COMMANDS
+          end
           "Available commands: #{commands.join(', ')}\n" +
           "Type \"help <command>\" to dig deeper."
         end

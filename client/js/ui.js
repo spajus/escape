@@ -28,12 +28,14 @@ $(function() {
     $input.focus();
   };
 
+  var noEchoCommands = ['clear', 'login', 'say', 'emote', 'whisper'];
+
   var processCommand = function(input, callback) {
     if (input.toLowerCase() == 'clear') {
       $output.val('');
       return '';
     } else {
-      if (input.toLowerCase().indexOf('login') !== 0) {
+      if (noEchoCommands.indexOf(input.toLowerCase().split(' ', 2)[0]) == -1) {
         var previous = $output.val();
         if (previous) {
           $output.val($output.val() + "\n> " + input);
@@ -80,6 +82,9 @@ $(function() {
 
   $input.keydown(function(e) {
     if (e.keyCode == 13) {
+      if (Escape.refreshTimeout) {
+        clearTimeout(Escape.refreshTimeout);
+      }
       var input = $input.val();
       processCommand(input, appendOutput);
       $input.val('');
@@ -88,7 +93,7 @@ $(function() {
 
   var refreshGame = function() {
     Escape.ExecuteCommand('refresh', appendOutput);
-    setTimeout(refreshGame, 3000);
+    Escape.refreshTimeout = setTimeout(refreshGame, 3000);
   };
 
   refreshGame(refreshGame);
